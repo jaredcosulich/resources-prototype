@@ -40,7 +40,7 @@ function InputSlider() {
   return (
     <div className={classes.root}>
       <Typography id="input-slider" gutterBottom>
-        Volume
+        Volumex
       </Typography>
       <Grid container spacing={2} alignItems="center">
         <Grid item xs>
