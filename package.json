@@ -6,10 +6,10 @@
   "homepage": "https://codesandbox.io/s/4j7m47vlm4",
   "main": "index.js",
   "dependencies": {
-    "@material-ui/core": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "desmos": "latest"
+    "@material-ui/core": "^4.11.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "desmos": "^1.5.3"
   },
   "devDependencies": {
     "react-scripts": "1.0.0"
