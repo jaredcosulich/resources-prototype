@@ -3,81 +3,36 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Desmos from "desmos";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Slider from "@material-ui/core/Slider";
-import Input from "@material-ui/core/Input";
 import { Accordion, AccordionSummary, AccordionDetails, Container } from "@material-ui/core";
 import { Drawer } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import InputSlider from './input_slider.js';
 import BasicTable from './basic_table.js';
 
 const useStyles = makeStyles({
   root: {
     width: 250
-  },
-  input: {
-    width: 42
   }
 });
+
+function createData(x,y) {
+  return { x,y };
+}
+
+const rows = [
+  createData(144.52, 53.90),
+  createData(126.37, 52.33),
+  createData(168.51, 72.41),
+  createData(126.37, 56.64),
+  createData(138.87, 47.91),
+  createData(98.71, 72.41),
+  createData(138.87, 98.91),
+];
 
 function Graph() {
   return (
     <div id='calculator' style={{height: '600px', marginLeft: '360px'}}></div>
-  );
-}
-
-function InputSlider() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(30);
-
-  const handleSliderChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const handleInputChange = (event) => {
-    setValue(event.target.value === "" ? "" : Number(event.target.value));
-  };
-
-  const handleBlur = () => {
-    if (value < 0) {
-      setValue(0);
-    } else if (value > 100) {
-      setValue(100);
-    }
-  };
-
-  return (
-    <div className={classes.root}>
-      <Typography id="input-slider" gutterBottom>
-        Volume
-      </Typography>
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs>
-          <Slider
-            value={typeof value === "number" ? value : 0}
-            onChange={handleSliderChange}
-            aria-labelledby="input-slider"
-          />
-        </Grid>
-        <Grid item>
-          <Input
-            className={classes.input}
-            value={value}
-            margin="dense"
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-            inputProps={{
-              step: 10,
-              min: 0,
-              max: 100,
-              type: "number",
-              "aria-labelledby": "input-slider"
-            }}
-          />
-        </Grid>
-      </Grid>
-    </div>
   );
 }
 
@@ -87,16 +42,16 @@ function App() {
   return (
     <Container>
       <Drawer anchor={'left'} open={true} variant={'permanent'}>
-        <Accordion>
+        <Accordion expanded={true}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
-            id="panel1a-header"
+            id="panel1a-header"            
           >
-            <Typography className={classes.heading}>Data</Typography>
+            <Typography className={classes.heading}>Data & Plots</Typography>
           </AccordionSummary>
           <AccordionDetails>
-             <BasicTable></BasicTable>
+             <BasicTable rows={rows}></BasicTable>
           </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -105,7 +60,23 @@ function App() {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography className={classes.heading}>Transform</Typography>
+            <Typography className={classes.heading}>Explore & Fit</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+          <Typography variant="h6">
+            Polynomial
+          </Typography>
+
+            <InputSlider></InputSlider> 
+          </AccordionDetails>
+        </Accordion>  
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography className={classes.heading}>Is My Curve Close Enough?</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <InputSlider></InputSlider> 
@@ -125,38 +96,20 @@ const calculator = Desmos.GraphingCalculator(elt, {
   expressionsCollapsed: true
 });
 
-calculator.setMathBounds({
-  left: -2,
-  right: 10,
-  bottom: -2,
-  top: 10
+
+const bounds = {left: -10, right: 10, top: 10, bottom: -10};
+rows.forEach((r, index) => {
+  if (r.x < bounds.left) bounds.left = r.x - (Math.abs(r.x * 0.1)); 
+  if (r.x > bounds.right) bounds.right = r.x + (Math.abs(r.x * 0.1));
+  if (r.y < bounds.bottom) bounds.bottom = r.y - (Math.abs(r.y * 0.1));
+  if (r.y > bounds.top) bounds.top = r.y + (Math.abs(r.y * 0.1)); 
+
+  calculator.setExpression({
+    id: "point" + index,
+    latex: `(${r.x},${r.y})`,
+    dragMode: Desmos.DragModes.NONE,
+    pointStyle: Desmos.Styles.POINT
+  });
 });
 
-calculator.setExpression({
-  id: "pointA",
-  latex: "A=(2,4)",
-  dragMode: Desmos.DragModes.NONE,
-  pointStyle: Desmos.Styles.POINT
-});
-
-calculator.setExpression({
-  id: "pointB",
-  latex: "B=(4,2)",
-  dragMode: Desmos.DragModes.NONE,
-  pointStyle: Desmos.Styles.POINT
-});
-
-calculator.setExpression({
-  id: "pointC",
-  latex: "C=(7,1)",
-  dragMode: Desmos.DragModes.NONE,
-  pointStyle: Desmos.Styles.POINT
-});
-
-calculator.setExpression({
-  id: "curveA",
-  latex: "y=-1.1+8(.1x+1)^{-e}",
-  color: Desmos.Colors.BLUE
-});
-
-
+calculator.setMathBounds(bounds);
