@@ -1,3 +1,4 @@
+import './style.css';
 import React from "react";
 import ReactDOM from "react-dom";
 import Desmos from "desmos";
@@ -6,7 +7,10 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import Input from "@material-ui/core/Input";
-import { Container } from "@material-ui/core";
+import { Accordion, AccordionSummary, AccordionDetails, Container } from "@material-ui/core";
+import { Drawer } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import BasicTable from './basic_table.js';
 
 const useStyles = makeStyles({
   root: {
@@ -16,6 +20,12 @@ const useStyles = makeStyles({
     width: 42
   }
 });
+
+function Graph() {
+  return (
+    <div id='calculator' style={{height: '600px', marginLeft: '360px'}}></div>
+  );
+}
 
 function InputSlider() {
   const classes = useStyles();
@@ -72,9 +82,37 @@ function InputSlider() {
 }
 
 function App() {
+  const classes = useStyles();
+
   return (
     <Container>
-      <InputSlider></InputSlider>
+      <Drawer anchor={'left'} open={true} variant={'permanent'}>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography className={classes.heading}>Data</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+             <BasicTable></BasicTable>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography className={classes.heading}>Transform</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <InputSlider></InputSlider> 
+          </AccordionDetails>
+        </Accordion>      
+      </Drawer>
+      <Graph></Graph>
     </Container>
   );
 }
@@ -121,11 +159,4 @@ calculator.setExpression({
   color: Desmos.Colors.BLUE
 });
 
-const panel = document.getElementById("panel");
-const exampleTemplate = document.createElement("DIV");
-exampleTemplate.style =
-  "margin: auto; border: 1px solid black; padding: 20px; height: 200px; width: 600px;";
 
-const example1 = exampleTemplate.cloneNode(true);
-example1.innerHTML = "HI";
-panel.appendChild(example1);
