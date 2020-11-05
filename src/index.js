@@ -3,12 +3,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Desmos from "desmos";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import { Accordion, AccordionSummary, AccordionDetails, Container } from "@material-ui/core";
-import { Drawer } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import InputSlider from './input_slider.js';
-import BasicTable from './basic_table.js';
+import ControlsDrawer from './controls_drawer';
+import { Container } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
@@ -41,48 +37,7 @@ function App() {
 
   return (
     <Container>
-      <Drawer anchor={'left'} open={true} variant={'permanent'}>
-        <Accordion expanded={true}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"            
-          >
-            <Typography className={classes.heading}>Data & Plots</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-             <BasicTable rows={rows}></BasicTable>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography className={classes.heading}>Explore & Fit</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-          <Typography variant="h6">
-            Polynomial
-          </Typography>
-
-            <InputSlider></InputSlider> 
-          </AccordionDetails>
-        </Accordion>  
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography className={classes.heading}>Is My Curve Close Enough?</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <InputSlider></InputSlider> 
-          </AccordionDetails>
-        </Accordion>      
-      </Drawer>
+      <ControlsDrawer classes={classes} rows={rows}></ControlsDrawer>
       <Graph></Graph>
     </Container>
   );
