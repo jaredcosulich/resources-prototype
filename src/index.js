@@ -37,7 +37,7 @@ function App() {
 
   return (
     <Container>
-      <ControlsDrawer classes={classes} rows={rows}></ControlsDrawer>
+      <ControlsDrawer rows={rows}></ControlsDrawer>
       <Graph></Graph>
     </Container>
   );

@@ -5,6 +5,7 @@ import { Drawer } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import InputSlider from './input_slider.js';
 import BasicTable from './basic_table.js';
+import { makeStyles } from "@material-ui/core/styles";
 
 class ControlsDrawer extends React.Component {
   constructor(props) {
@@ -12,14 +13,13 @@ class ControlsDrawer extends React.Component {
 
     this.state = {
       accordianIndex: 0,
-      classes: props.classes,
-      rows: props.rows
+      rows: props.rows   
     };
   }
 
   setAccordian(index) {
    this.setState({
-     accordianIndex: this.state.accordianIndex == index ? -1 : index
+     accordianIndex: this.state.accordianIndex === index ? -1 : index
    });
   }
 
@@ -32,7 +32,7 @@ class ControlsDrawer extends React.Component {
             aria-controls="panel1a-content"
             id="panel1a-header"    
           >
-            <Typography className={this.state.classes.heading}>Data & Plots</Typography>
+            <Typography>Data & Plots</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <BasicTable rows={this.state.rows}></BasicTable>
@@ -44,7 +44,7 @@ class ControlsDrawer extends React.Component {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography className={this.state.classes.heading}>Explore & Fit</Typography>
+            <Typography>Explore & Fit</Typography>
           </AccordionSummary>
           <AccordionDetails>
           <Typography variant="h6">
@@ -60,7 +60,7 @@ class ControlsDrawer extends React.Component {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography className={this.state.classes.heading}>Is My Curve Close Enough?</Typography>
+            <Typography>Is My Curve Close Enough?</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <InputSlider></InputSlider> 
