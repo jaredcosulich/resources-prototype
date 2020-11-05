@@ -5,14 +5,14 @@ import { Drawer } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import InputSlider from './input_slider.js';
 import BasicTable from './basic_table.js';
-import { makeStyles } from "@material-ui/core/styles";
+import CurveSlider from "./curve_slider.js";
 
 class ControlsDrawer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      accordianIndex: 0,
+      accordianIndex: 1,
       rows: props.rows   
     };
   }
@@ -47,11 +47,11 @@ class ControlsDrawer extends React.Component {
             <Typography>Explore & Fit</Typography>
           </AccordionSummary>
           <AccordionDetails>
-          <Typography variant="h6">
-            Polynomial
-          </Typography>
+            <Typography variant="h6">
+              Polynomial
+            </Typography>
 
-            <InputSlider></InputSlider> 
+            <CurveSlider></CurveSlider>
           </AccordionDetails>
         </Accordion>  
         <Accordion expanded={this.state.accordianIndex === 2} onChange={() => this.setAccordian(2)}>
