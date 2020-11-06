@@ -1,19 +1,15 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
-import { Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
-import { Drawer } from '@material-ui/core';
+import { Accordion, AccordionSummary, AccordionDetails, Container } from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import InputSlider from './input_slider.js';
-import BasicTable from './basic_table.js';
-import Curves from "./curves.js";
+import Typography from "@material-ui/core/Typography";
+import CurveSlider from "./curve_slider.js";
 
-class ControlsDrawer extends React.Component {
+class Curves extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      accordianIndex: 1,
-      rows: props.rows   
+      accordianIndex: 0,
     };
   }
 
@@ -25,17 +21,18 @@ class ControlsDrawer extends React.Component {
 
   render() {
     return (
-      <Drawer anchor={'left'} open={true} variant={'permanent'}>
-        <Accordion expanded={this.state.accordianIndex === 0} onChange={() => this.setAccordian(0)}>
+      <Container>
+       <Accordion expanded={this.state.accordianIndex === 0} onChange={() => this.setAccordian(0)}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"    
           >
-            <Typography>Data & Plots</Typography>
+            <Typography>Polynomial</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <BasicTable rows={this.state.rows}></BasicTable>
+            <CurveSlider></CurveSlider>
+
           </AccordionDetails>
         </Accordion>
         <Accordion expanded={this.state.accordianIndex === 1} onChange={() => this.setAccordian(1)}>
@@ -44,10 +41,11 @@ class ControlsDrawer extends React.Component {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>Explore & Fit</Typography>
+            <Typography>Periodic</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Curves></Curves>
+              
+            <CurveSlider></CurveSlider>
           </AccordionDetails>
         </Accordion>  
         <Accordion expanded={this.state.accordianIndex === 2} onChange={() => this.setAccordian(2)}>
@@ -56,16 +54,15 @@ class ControlsDrawer extends React.Component {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>Is My Curve Close Enough?</Typography>
+            <Typography>Logarithmic</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <InputSlider></InputSlider> 
-          </AccordionDetails>
-        </Accordion>      
-      </Drawer>
+            <CurveSlider></CurveSlider>
+        </AccordionDetails>
+        </Accordion>     
+      </Container>
     );
   }
-} 
+}
 
-export default ControlsDrawer;
-  
+export default Curves;
