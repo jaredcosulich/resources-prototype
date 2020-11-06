@@ -1,51 +1,54 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import Input from '@material-ui/core/Input';
-import VolumeUp from '@material-ui/icons/VolumeUp';
 
 const useStyles = makeStyles({
   root: {
-    width: 250,
+    width: 210,
   },
   input: {
     width: 42,
   },
 });
 
-export default function InputSlider() {
+export default function InputSlider(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(30);
 
   const handleSliderChange = (event, newValue) => {
-    setValue(newValue);
+    setSliderValue(newValue);
   };
 
   const handleInputChange = (event) => {
-    setValue(event.target.value === '' ? '' : Number(event.target.value));
+    const newValue = event.target.value === '' ? '' : Number(event.target.value);
+    setSliderValue(newValue);
   };
 
   const handleBlur = () => {
-    if (value < 0) {
-      setValue(0);
-    } else if (value > 100) {
-      setValue(100);
+    if (value < -500) {
+      setSliderValue(-500);
+    } else if (value > 500) {
+      setSliderValue(500);
     }
   };
 
+  const setSliderValue = (newValue) => {
+    setValue(newValue);
+    props.onChange(props.title, newValue);
+  } 
+
   return (
     <div className={classes.root}>
-      <Typography id="input-slider" gutterBottom>
-        Volume
-      </Typography>
       <Grid container spacing={2} alignItems="center">
         <Grid item>
-          <VolumeUp />
+          {props.title}
         </Grid>
         <Grid item xs>
           <Slider
+            min={-500}
+            max={500}
             value={typeof value === 'number' ? value : 0}
             onChange={handleSliderChange}
             aria-labelledby="input-slider"
@@ -59,9 +62,9 @@ export default function InputSlider() {
             onChange={handleInputChange}
             onBlur={handleBlur}
             inputProps={{
-              step: 10,
-              min: 0,
-              max: 100,
+              step: 0.1,
+              min: -500,
+              max: 500,
               type: 'number',
               'aria-labelledby': 'input-slider',
             }}

@@ -47,7 +47,7 @@ ReactDOM.render(<App />, document.querySelector("#app"));
 
 const elt = document.getElementById("calculator");
 elt.style.marginBottom = "30px";
-const calculator = Desmos.GraphingCalculator(elt, {
+const calculator = window.calculator = Desmos.GraphingCalculator(elt, {
   expressionsCollapsed: true
 });
 
