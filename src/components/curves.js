@@ -1,5 +1,5 @@
 import React from "react";
-import { Accordion, AccordionSummary, AccordionDetails, Container } from "@material-ui/core";
+import { Accordion, AccordionSummary, AccordionDetails, Container, Grid } from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from "@material-ui/core/Typography";
 import CurveSlider from "./curve_slider.js";
@@ -31,8 +31,27 @@ class Curves extends React.Component {
             <Typography>Polynomial</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <CurveSlider></CurveSlider>
-
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <CurveSlider
+                  latex="Y=(~~a~~X^{-1})+~~b~~"
+                  variables={{
+                    a: 1,
+                    b: 0
+                  }}
+                ></CurveSlider>
+              </Grid>  
+              <Grid item xs={12}>
+                <CurveSlider
+                  latex="Y=(~~m~~(X+~~a~~)^{-1})+~~b~~"
+                  variables={{
+                    m: 1,
+                    a: 1,
+                    b: 0
+                  }}
+                ></CurveSlider>
+              </Grid>
+            </Grid>
           </AccordionDetails>
         </Accordion>
         <Accordion expanded={this.state.accordianIndex === 1} onChange={() => this.setAccordian(1)}>
@@ -45,7 +64,13 @@ class Curves extends React.Component {
           </AccordionSummary>
           <AccordionDetails>
               
-            <CurveSlider></CurveSlider>
+            <CurveSlider
+              latex="Y=(~~a~~X^{-1})+~~b~~"
+              variables={{
+                a: 1,
+                b: 0
+              }}
+            ></CurveSlider>
           </AccordionDetails>
         </Accordion>  
         <Accordion expanded={this.state.accordianIndex === 2} onChange={() => this.setAccordian(2)}>
@@ -57,7 +82,13 @@ class Curves extends React.Component {
             <Typography>Logarithmic</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <CurveSlider></CurveSlider>
+            <CurveSlider
+              latex="Y=(~~a~~X^{-1})+~~b~~"
+              variables={{
+                a: 1,
+                b: 0
+              }}
+            ></CurveSlider>
         </AccordionDetails>
         </Accordion>     
       </Container>

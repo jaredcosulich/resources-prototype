@@ -10,7 +10,8 @@
     "@material-ui/icons": "^4.9.1",
     "desmos": "^1.5.3",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "react-latex": "^2.0.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.0"
