@@ -3,6 +3,8 @@ import { Accordion, AccordionSummary, AccordionDetails, Container, Grid } from "
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from "@material-ui/core/Typography";
 import CurveSlider from "./curve_slider.js";
+import x1 from '../assets/images/x-1.png';
+import x2 from '../assets/images/x2.png';
 
 class Curves extends React.Component {
   constructor(props) {
@@ -34,15 +36,7 @@ class Curves extends React.Component {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <CurveSlider
-                  latex="Y=(~~a~~X^{-1})+~~b~~"
-                  variables={{
-                    a: 1,
-                    b: 0
-                  }}
-                ></CurveSlider>
-              </Grid>  
-              <Grid item xs={12}>
-                <CurveSlider
+                  image={x1}
                   latex="Y=(~~m~~(X+~~a~~)^{-1})+~~b~~"
                   variables={{
                     m: 1,
@@ -51,6 +45,17 @@ class Curves extends React.Component {
                   }}
                 ></CurveSlider>
               </Grid>
+              <Grid item xs={12}>
+                <CurveSlider
+                  image={x2}
+                  latex="Y=(~~m~~(X+~~a~~)^{2})+~~b~~"
+                  variables={{
+                    m: 1,
+                    a: 1,
+                    b: 0
+                  }}
+                ></CurveSlider>
+              </Grid>  
             </Grid>
           </AccordionDetails>
         </Accordion>

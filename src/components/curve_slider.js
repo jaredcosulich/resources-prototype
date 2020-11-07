@@ -2,7 +2,6 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import InputSlider from './input_slider.js';
 import { Grid } from "@material-ui/core";
-import x1 from '../assets/images/x-1.png';
 import Desmos from "desmos";
 import Latex from 'react-latex';
 
@@ -67,7 +66,7 @@ class CurveSlider extends React.Component {
         alignItems="left"
       >
         <Grid item xs={3}>
-          <img src={x1} alt="x^(-1)" height={75} style={{marginTop: 12}}/>
+          <img src={this.props.image} height={75} style={{marginTop: 12}}/>
         </Grid>
         <Grid item xs={4}>
           <Latex>{`$${this.getLatex(true)}$`}</Latex>
