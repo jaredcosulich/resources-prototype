@@ -4,27 +4,42 @@ import { Grid } from "@material-ui/core";
 import Desmos from "desmos";
 import Latex from 'react-latex';
 
+const timeSpent = {};
+function recordTime(functionName, time) {
+  if (!timeSpent[functionName]) timeSpent[functionName] = 0;
+  timeSpent[functionName] += time;
+  console.log(timeSpent); 
+}
 
 class CurveSlider extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      displayed: props.displayed,
       latex: props.latex || "",
       color: props.color,
-      variables: props.variables || {}
+      variables: props.variables || {},
+      onChange: props.onChange
     };
 
     this.variables = props.variables || {};
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     this.displayCurve();
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      displayed: props.displayed,
+    })
   }
 
   handleSliderChange(variable, newValue) {
     this.variables[variable] = newValue
     this.displayCurve();
+    if (this.state.onChange) this.state.onChange();
   }
 
   getLatex(withVariables) {  
@@ -44,10 +59,12 @@ class CurveSlider extends React.Component {
   }
 
   displayCurve() {
+    if (!this.state.displayed) return;
+
     const calculator = window.calculator;
 
     if (!calculator || !calculator.setExpression) {
-      setTimeout(this.displayCurve.bind(this), 500);
+      setTimeout(this.displayCurve.bind(this), 50);
       return;
     }
 
@@ -57,7 +74,7 @@ class CurveSlider extends React.Component {
       latex: latex,
       color: this.state.color,
       dragMode: Desmos.DragModes.NONE
-    })
+    });
   }
 
   render() {

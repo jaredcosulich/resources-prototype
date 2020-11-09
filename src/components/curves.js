@@ -1,12 +1,25 @@
 import React from "react";
 import { Accordion, AccordionSummary, AccordionDetails, Container, Grid } from "@material-ui/core";
+import Latex from 'react-latex';
+import Desmos from "desmos";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from "@material-ui/core/Typography";
 import CurveSlider from "./curve_slider.js";
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+
 import x1 from '../assets/images/x1.png';
 import x from '../assets/images/x.png';
 import x2 from '../assets/images/x2.png';
 import x3 from '../assets/images/x3.png';
+
+const timeSpent = {};
+function recordTime(functionName, time) {
+  if (!timeSpent[functionName]) timeSpent[functionName] = 0;
+  timeSpent[functionName] += time;
+  console.log(timeSpent); 
+}
+
 
 class Curves extends React.Component {
   constructor(props) {
@@ -14,6 +27,7 @@ class Curves extends React.Component {
 
     this.state = {
       accordianIndex: 0,
+      combinedCurves: 'combined',
       curveTypes: [
         {
           name: "Polynomial",
@@ -74,7 +88,7 @@ class Curves extends React.Component {
                 b: 0
               }
             }, {
-              visible: true,
+              visible: false,
               image: x,
               latex: "Y=(~~m~~(X+~~a~~))+~~b~~",
               variables: {
@@ -111,6 +125,10 @@ class Curves extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.setCombinedFunction();
+  }
+
   setAccordian(index) {
    this.setState({
      accordianIndex: this.state.accordianIndex === index ? -1 : index
@@ -123,28 +141,74 @@ class Curves extends React.Component {
     const curveIndex = curveTypes[curveTypeIndex].curves.map((c) => c.latex).indexOf(curve.latex);
     curveTypes[curveTypeIndex].curves[curveIndex].visible = !curveTypes[curveTypeIndex].curves[curveIndex].visible;
     this.setState({curveTypes: curveTypes});
+    this.setCombinedFunction();
+  }
+
+  setCombinedFunction() {
+    let constant = 0;
+    let expressions = [];
+
+    for (const curveType of this.state.curveTypes) {
+      for (const curve of curveType.curves) {
+        if (!curve.visible) continue;
+
+        let latex = curve.latex.split("Y=")[1];
+        for (const variable of Object.keys(curve.variables)) {
+          const regexp = new RegExp(`~~${variable}~~`, 'g');
+          if (variable.toString() === "b") { 
+            latex = latex.split("+~~b~~")[0];
+            constant += curve.variables[variable];
+          } else {  
+            latex = latex.replace(regexp, curve.variables[variable]);
+          }
+        }
+        expressions.push(latex);
+      }      
+    }
+
+    this.setState({combinedFunction: "Y=" + constant + "+" + expressions.join("+")});
+  }
+
+  handleCombined(event, value) {
+    if (!value) return;
+    this.setState({combinedCurves: value});
+  }
+
+  setCalculator() {
+    const calculator = window.calculator;
+
+    if (!calculator ||!calculator.getExpressions) {
+      setTimeout(this.setCalculator.bind(this), 100);
+      return;
+    }
+
+    const expressions = calculator.getExpressions();
+    const hiddenExpressions = expressions.filter((expression) => {
+      for (const curveType of this.state.curveTypes) {
+        for (const curve of curveType.curves) {
+          if (curve.latex === expression.id) {
+            return !curve.visible;
+          }
+        }
+      }
+      return false;          
+    });  
+    calculator.removeExpressions(hiddenExpressions);
+
+    if (this.state.combinedCurves === "combined") {
+      calculator.setExpression({
+        id: 'combined',
+        latex: this.state.combinedFunction,
+        color: 'FFF',
+        dragMode: Desmos.DragModes.NONE
+      });
+    }    
   }
 
   render() {
-    const calculator = window.calculator;
+    this.setCalculator();
 
-
-    if (calculator) {
-      const expressions = calculator.getExpressions();
-      
-      const hiddenExpressions = expressions.filter((expression) => {
-        for (const curveType of this.state.curveTypes) {
-          for (const curve of curveType.curves) {
-            if (curve.latex === expression.id) {
-              return !curve.visible;
-            }
-          }
-        }
-        return false;          
-      });
-      calculator.removeExpressions(hiddenExpressions);  
-    }
-
+    const displayCurves = this.state.combinedCurves === 'constituents';
     return (
       <Container>
         {this.state.curveTypes.map((curveType, index) => 
@@ -161,9 +225,11 @@ class Curves extends React.Component {
                 {curveType.curves.filter((curve) => curve.visible).map((curve) => 
                   <Grid item xs={12}>
                     <CurveSlider
+                      displayed={displayCurves}
                       image={curve.image}
                       latex={curve.latex}
                       variables={curve.variables}
+                      onChange={this.setCombinedFunction.bind(this)}
                     ></CurveSlider>
                   </Grid>
                 )}
@@ -177,7 +243,31 @@ class Curves extends React.Component {
               </Grid>              
             </AccordionDetails>
           </Accordion>
-        )}           
+        )} 
+
+        <Grid container spacing={3} style={{marginTop: 30}}> 
+          <Grid item xs={12}>
+            <Typography>Combined Function</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Latex>{this.state.combinedFunction}</Latex>
+          </Grid>
+          <Grid item xs={12}>
+            <ToggleButtonGroup
+              value={this.state.combinedCurves}
+              exclusive
+              onChange={this.handleCombined.bind(this)}
+              aria-label="combine curves"
+            >
+              <ToggleButton value="constituents" aria-label="constituents">
+                Constituents
+              </ToggleButton>
+              <ToggleButton value="combined" aria-label="combined">
+                Combined
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Grid>
+        </Grid>  
       </Container>
     );
   }
