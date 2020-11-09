@@ -1,5 +1,4 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
 import InputSlider from './input_slider.js';
 import { Grid } from "@material-ui/core";
 import Desmos from "desmos";
@@ -12,8 +11,11 @@ class CurveSlider extends React.Component {
 
     this.state = {
       latex: props.latex || "",
+      color: props.color,
       variables: props.variables || {}
     };
+
+    this.variables = props.variables || {};
   }
 
   componentDidMount() {
@@ -21,13 +23,13 @@ class CurveSlider extends React.Component {
   }
 
   handleSliderChange(variable, newValue) {
-    this.state.variables[variable] = newValue
+    this.variables[variable] = newValue
     this.displayCurve();
   }
 
   getLatex(withVariables) {  
     let latex = this.state.latex;  
-    const variables = this.state.variables;
+    const variables = this.variables;
 
     // console.log(latex.replace(/~~([^~]+)~~/g, variables["$1"]));
     if (withVariables) {
@@ -53,6 +55,7 @@ class CurveSlider extends React.Component {
     calculator.setExpression({
       id: this.state.latex,
       latex: latex,
+      color: this.state.color,
       dragMode: Desmos.DragModes.NONE
     })
   }
@@ -66,12 +69,12 @@ class CurveSlider extends React.Component {
         alignItems="left"
       >
         <Grid item xs={3}>
-          <img src={this.props.image} height={75} style={{marginTop: 12}}/>
+          <img src={this.props.image} alt="Curve" height={75} style={{marginTop: 12}}/>
         </Grid>
         <Grid item xs={4}>
           <Latex>{`$${this.getLatex(true)}$`}</Latex>
 
-          {Object.keys(this.state.variables).map((variable) =>
+          {Object.keys(this.variables).map((variable) =>
             <InputSlider 
               title={variable} 
               value={this.state.variables[variable]}

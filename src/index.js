@@ -2,15 +2,15 @@ import './style.css';
 import React from "react";
 import ReactDOM from "react-dom";
 import Desmos from "desmos";
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 import ControlsDrawer from './components/controls_drawer';
 import { Container } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  root: {
-    width: 250
-  }
-});
+// const useStyles = makeStyles({
+//   root: {
+//     width: 250
+//   }
+// });
 
 function createData(x,y) {
   return { x,y };
@@ -33,8 +33,6 @@ function Graph() {
 }
 
 function App() {
-  const classes = useStyles();
-
   return (
     <Container>
       <ControlsDrawer rows={rows}></ControlsDrawer>
@@ -48,7 +46,8 @@ ReactDOM.render(<App />, document.querySelector("#app"));
 const elt = document.getElementById("calculator");
 elt.style.marginBottom = "30px";
 const calculator = window.calculator = Desmos.GraphingCalculator(elt, {
-  expressionsCollapsed: true
+  expressionsCollapsed: true,
+  invertedColors: true,
 });
 
 
