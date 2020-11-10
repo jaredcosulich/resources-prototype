@@ -73,10 +73,11 @@ class CurveSlider extends React.Component {
     }
 
     const latex = this.getLatex(false);
+    console.log(this.state.color);
     calculator.setExpression({
       id: "curve" + this.state.latex,
       latex: latex,
-      color: this.state.color,
+      color: `#${this.state.color}`,
       dragMode: Desmos.DragModes.NONE
     });
   }

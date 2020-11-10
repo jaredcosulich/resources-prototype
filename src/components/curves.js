@@ -232,6 +232,7 @@ class Curves extends React.Component {
                       image={curve.image}
                       latex={curve.latex}
                       variables={curve.variables}
+                      color={curve.color}
                       onChange={this.setCombinedFunction.bind(this)}
                     ></CurveSlider>
                   </Grid>
@@ -265,7 +266,7 @@ class Curves extends React.Component {
               <ToggleButton value="constituents" aria-label="constituents">
                 Constituents
               </ToggleButton>
-              <ToggleButton value="combined" aria-label="combined">
+              <ToggleButton value="combined" color="primary" aria-label="combined">
                 Combined
               </ToggleButton>
             </ToggleButtonGroup>
