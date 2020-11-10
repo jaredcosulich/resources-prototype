@@ -51,7 +51,7 @@ class Curves extends React.Component {
 
     this.state = {
       accordianIndex: 0,
-      combinedCurves: 'combined',
+      combinedCurves: 'constituents',
       curveTypes: [
         {
           name: "Polynomial",
