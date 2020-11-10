@@ -8,10 +8,14 @@ import CurveSlider from "./curve_slider.js";
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
+import x_1 from '../assets/images/x-1.png';
 import x1 from '../assets/images/x1.png';
-import x from '../assets/images/x.png';
 import x2 from '../assets/images/x2.png';
 import x3 from '../assets/images/x3.png';
+import x_1unselected from '../assets/images/x-1unselected.png';
+import x1unselected from '../assets/images/x1unselected.png';
+import x2unselected from '../assets/images/x2unselected.png';
+import x3unselected from '../assets/images/x3unselected.png';
 
 const timeSpent = {};
 function recordTime(functionName, time) {
@@ -34,7 +38,8 @@ class Curves extends React.Component {
           curves: [
             {
               visible: false,
-              image: x1,
+              image: x_1,
+              unselectedImage: x_1unselected,
               latex: "Y=(~~m~~(X+~~a~~)^{-1})+~~b~~",
               color: "256e8e", //"DA9171",
               variables: {
@@ -44,7 +49,8 @@ class Curves extends React.Component {
               }
             }, {
               visible: true,
-              image: x,
+              image: x1,
+              unselectedImage: x1unselected,
               latex: "Y=(~~m~~(X+~~a~~))+~~b~~",
               color: "64ae1f", //"9B51E0",
               variables: {
@@ -55,6 +61,7 @@ class Curves extends React.Component {
             }, {
               visible: false,
               image: x2,
+              unselectedImage: x2unselected,
               latex: "Y=(~~m~~(X+~~a~~)^{2})+~~b~~",
               color: "cd0c5b", //"32F3A4",
               variables: {
@@ -65,6 +72,7 @@ class Curves extends React.Component {
             }, {
               visible: false,
               image: x3,
+              unselectedImage: x3unselected,
               latex: "Y=(~~m~~(X+~~a~~)^{3})+~~b~~",
               color: "e83c2e", //"17C3D1",
               variables: {
@@ -80,7 +88,8 @@ class Curves extends React.Component {
           curves: [
             {
               visible: false,
-              image: x1,
+              image: x_1,
+              unselectedImage: x_1unselected,
               latex: "Y=(~~m~~(X+~~a~~)^{-1})+~~b~~",
               variables: {
                 m: 1,
@@ -89,7 +98,8 @@ class Curves extends React.Component {
               }
             }, {
               visible: false,
-              image: x,
+              image: x1,
+              unselectedImage: x1unselected,
               latex: "Y=(~~m~~(X+~~a~~))+~~b~~",
               variables: {
                 m: 1,
@@ -99,6 +109,7 @@ class Curves extends React.Component {
             }, {
               visible: false,
               image: x2,
+              unselectedImage: x2unselected,
               latex: "Y=(~~m~~(X+~~a~~)^{2})+~~b~~",
               variables: {
                 m: 1,
@@ -108,6 +119,7 @@ class Curves extends React.Component {
             }, {
               visible: false,
               image: x3,
+              unselectedImage: x3unselected,
               latex: "Y=(~~m~~(X+~~a~~)^{3})+~~b~~",
               variables: {
                 m: 1,
@@ -240,7 +252,7 @@ class Curves extends React.Component {
                 {
                   curveType.curves.map((curve) => 
                     <Grid item xs={2} onClick={() => this.handleCurveClick(curveType.name, curve)}>
-                      <img src={curve.image} height={50} alt="Curve"></img>
+                      <img src={curve.visible ? curve.image : curve.unselectedImage} height={50} alt="Curve"></img>
                     </Grid>
                   )
                 }
