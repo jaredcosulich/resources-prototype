@@ -26,6 +26,10 @@ class CurveSlider extends React.Component {
     this.variables = props.variables || {};
   }
 
+  componentDidMount() {
+    this.displayCurve();
+  }
+
   componentDidUpdate() {
     this.displayCurve();
   }
