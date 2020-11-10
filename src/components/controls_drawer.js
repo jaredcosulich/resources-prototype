@@ -1,11 +1,20 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import { Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
+import { withStyles } from '@material-ui/core/styles';
+import { Accordion, AccordionSummary } from "@material-ui/core";
+import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import { Drawer } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import InputSlider from './input_slider.js';
 import BasicTable from './basic_table.js';
 import Curves from "./curves.js";
+
+const AccordionDetails = withStyles({
+  root: {
+    padding: 0
+  }
+})(MuiAccordionDetails);
+
 
 class ControlsDrawer extends React.Component {
   constructor(props) {

@@ -1,5 +1,7 @@
 import React from "react";
-import { Accordion, AccordionSummary, AccordionDetails, Container, Grid } from "@material-ui/core";
+import { AccordionSummary, AccordionDetails, Container, Grid } from "@material-ui/core";
+import { withStyles } from '@material-ui/core/styles';
+import MuiAccordion from '@material-ui/core/Accordion';
 import Latex from 'react-latex';
 import Desmos from "desmos";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -24,6 +26,24 @@ function recordTime(functionName, time) {
   console.log(timeSpent); 
 }
 
+const Accordion = withStyles({
+  root: {
+    backgroundColor: 'inherit',
+    padding: 6,
+    border: '1px solid rgba(0, 0, 0, .125)',
+    boxShadow: 'none',
+    // '&:not(:last-child)': {
+    //   borderBottom: 0,
+    // },
+    '&:before': {
+      display: 'none',
+    },
+    '&$expanded': {
+      margin: 'auto',
+    }
+  },
+  expanded: {},
+})(MuiAccordion);
 
 class Curves extends React.Component {
   constructor(props) {
@@ -225,7 +245,7 @@ class Curves extends React.Component {
 
     const displayCurves = this.state.combinedCurves === 'constituents';
     return (
-      <Container>
+      <div style={{backgroundColor: '#efefef'}}>
         {this.state.curveTypes.map((curveType, index) => 
           <Accordion expanded={this.state.accordianIndex === index} onChange={() => this.setAccordian(index)}>
             <AccordionSummary
@@ -261,7 +281,7 @@ class Curves extends React.Component {
           </Accordion>
         )} 
 
-        <Grid container spacing={3} style={{marginTop: 30}}> 
+        <Grid container spacing={3} style={{margin: "15px 30px"}}> 
           <Grid item xs={12}>
             <Typography>Combined Function</Typography>
           </Grid>
@@ -284,7 +304,7 @@ class Curves extends React.Component {
             </ToggleButtonGroup>
           </Grid>
         </Grid>  
-      </Container>
+      </div>
     );
   }
 }
