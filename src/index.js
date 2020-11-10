@@ -17,13 +17,11 @@ function createData(x,y) {
 }
 
 const rows = [
-  createData(144.52, 53.90),
-  createData(126.37, 52.33),
-  createData(168.51, 72.41),
-  createData(126.37, 56.64),
-  createData(138.87, 47.91),
-  createData(98.71, 72.41),
-  createData(138.87, 98.91),
+  createData(2.3, 847.5),
+  createData(2.8, 265.3),
+  createData(3.5, 173.2),
+  createData(4.5, 103.6),
+  createData(4.8, 188.0),
 ];
 
 function Graph() {
