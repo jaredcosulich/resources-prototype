@@ -182,12 +182,15 @@ class Curves extends React.Component {
       return;
     }
 
+    const combined = this.state.combinedCurves === "combined";
     const expressions = calculator.getExpressions();
     const hiddenExpressions = expressions.filter((expression) => {
+      if (!combined && expression.id === "combined") return true;
+      if (expression.id.indexOf("curve") == -1) return false;
       for (const curveType of this.state.curveTypes) {
         for (const curve of curveType.curves) {
-          if (curve.latex === expression.id) {
-            return !curve.visible;
+          if ("curve" + curve.latex === expression.id) {
+            return combined || !curve.visible;
           }
         }
       }
@@ -195,14 +198,14 @@ class Curves extends React.Component {
     });  
     calculator.removeExpressions(hiddenExpressions);
 
-    if (this.state.combinedCurves === "combined") {
+    if (combined) {
       calculator.setExpression({
         id: 'combined',
         latex: this.state.combinedFunction,
         color: 'FFF',
         dragMode: Desmos.DragModes.NONE
       });
-    }    
+    }   
   }
 
   render() {
