@@ -36,7 +36,7 @@ class Curves extends React.Component {
               visible: false,
               image: x1,
               latex: "Y=(~~m~~(X+~~a~~)^{-1})+~~b~~",
-              color: "DA9171",
+              color: "256e8e", //"DA9171",
               variables: {
                 m: 1,
                 a: 1,
@@ -46,7 +46,7 @@ class Curves extends React.Component {
               visible: true,
               image: x,
               latex: "Y=(~~m~~(X+~~a~~))+~~b~~",
-              color: "9B51E0",
+              color: "64ae1f", //"9B51E0",
               variables: {
                 m: 1,
                 a: 1,
@@ -56,7 +56,7 @@ class Curves extends React.Component {
               visible: false,
               image: x2,
               latex: "Y=(~~m~~(X+~~a~~)^{2})+~~b~~",
-              color: "32F3A4",
+              color: "cd0c5b", //"32F3A4",
               variables: {
                 m: 1,
                 a: 1,
@@ -66,7 +66,7 @@ class Curves extends React.Component {
               visible: false,
               image: x3,
               latex: "Y=(~~m~~(X+~~a~~)^{3})+~~b~~",
-              color: "17C3D1",
+              color: "e83c2e", //"17C3D1",
               variables: {
                 m: 1,
                 a: 1,
