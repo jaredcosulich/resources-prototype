@@ -35,13 +35,13 @@ class CurveSlider extends React.Component {
   }
 
   componentWillReceiveProps(props) {
+    this.variables = props.variables;
     this.setState({
       displayed: props.displayed,
       latex: props.latex || "",
       color: props.color,
-      variables: props.variables || {},
       onChange: props.onChange
-    })
+    });
   }
 
   handleSliderChange(variable, newValue) {
